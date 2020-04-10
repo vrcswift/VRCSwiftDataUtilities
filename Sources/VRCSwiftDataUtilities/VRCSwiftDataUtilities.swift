@@ -20,6 +20,7 @@ public struct VRCDataFetcherError: Error {
     enum VRCDataFetcherErrorType {
         case endOfStream
         case outOfRange
+        case parameterError
     }
     
     let message: String
@@ -113,7 +114,11 @@ public class VRCDataFetcher {
     ///
     ///  Fetch bytes with specific count.
     ///
-    ///  - Throws: Raised if stream is ended.
+    ///  - Throws: Raised in the situations:
+    ///
+    ///         - The fetcher is already ended.
+    ///         - The count is out of range.
+    ///         - count < 0.
     ///
     ///  - Parameter count: The count
     ///
@@ -131,6 +136,12 @@ public class VRCDataFetcher {
             throw VRCDataFetcherError(
                 message: "Out of range.", kind: .outOfRange)
         }
+        
+        //  Check parameter(s).
+        if count < 0 {
+            throw VRCDataFetcherError(
+                message: "count < 0.", kind: .parameterError)
+        }
     
         //  Get buffer.
         let rst = m_Data.subdata(
@@ -145,11 +156,13 @@ public class VRCDataFetcher {
     ///
     ///  Skip specific bytes.
     ///
-    ///  - Throws: Raised if out of range.
+    ///  - Throws: Raised in the situations:
+    ///
+    ///         - The fetcher is already ended.
+    ///         - The count of skipped bytes is out of range.
+    ///         - steps < 0.
     ///
     ///  - Parameter step: The count of bytes to be skipped.
-    ///
-    ///  - Returns: The count of skipped bytes.
     ///
     public func skip(steps: Data.Index) throws {
         if self.isEnd() {
@@ -160,6 +173,12 @@ public class VRCDataFetcher {
         if steps > self.getRemainCount() {
             throw VRCDataFetcherError(
                 message: "Out of range.", kind: .outOfRange)
+        }
+        
+        //  Check parameter(s).
+        if steps < 0 {
+            throw VRCDataFetcherError(
+                message: "steps < 0.", kind: .parameterError)
         }
     
         //  Get skip steps.
@@ -251,7 +270,7 @@ class VRCBlockDataFetcher {
     ///
     ///  Fetch one byte.
     ///
-    ///  - Throws: Raised if stream was already ended.
+    ///  - Throws: Raised if there is no bytes.
     ///
     ///  - Returns: The byte.
     ///
@@ -279,6 +298,8 @@ class VRCBlockDataFetcher {
     ///
     ///  Fetch all bytes.
     ///
+    ///  - Throws: Raised if stream is already ended.
+    ///
     ///  - Returns: The bytes.
     ///
     public func fetchAll() throws -> Data {
@@ -301,6 +322,8 @@ class VRCBlockDataFetcher {
     
     ///
     ///  Fetch all remaining bytes as blocks.
+    ///
+    ///  - Throws if stream is already ended.
     ///
     ///  - Returns: The blocks.
     ///
@@ -334,6 +357,7 @@ class VRCBlockDataFetcher {
     ///
     ///         - The stream is ended.
     ///         - The bytes count is out of range.
+    ///         - count < 0.
     ///
     ///  - Parameter count: The bytes count.
     ///
@@ -349,6 +373,12 @@ class VRCBlockDataFetcher {
         if count > self.getRemainCount() {
             throw VRCDataFetcherError(
                 message: "Out of range.", kind: .outOfRange)
+        }
+        
+        //  Check parameter(s).
+        if count < 0 {
+            throw VRCDataFetcherError(
+                message: "count < 0.", kind: .parameterError)
         }
         
         let out = VRCDataMerger()
@@ -394,6 +424,7 @@ class VRCBlockDataFetcher {
     ///
     ///         - The stream is ended.
     ///         - The bytes count is larger than remain count.
+    ///         - count < 0.
     ///
     /// - Parameter count: The bytes count.
     ///
@@ -410,6 +441,12 @@ class VRCBlockDataFetcher {
         if count > self.getRemainCount() {
             throw VRCDataFetcherError(
                 message: "Out of range.", kind: .outOfRange)
+        }
+        
+        //  Check parameter(s).
+        if count < 0 {
+            throw VRCDataFetcherError(
+                message: "count < 0.", kind: .parameterError)
         }
         
         //  Create output buffer list.
@@ -459,10 +496,9 @@ class VRCBlockDataFetcher {
     ///
     ///         - The stream is ended.
     ///         - The count of bytes to be skipped is larger than remain count.
+    ///         - steps < 0.
     ///
     /// - Parameter steps: The count of bytes to be skipped.
-    ///
-    /// - Returns: The count of skipped bytes.
     ///
     public func skip(steps: Data.Index) throws {
         //  Check whether ended.
@@ -475,6 +511,12 @@ class VRCBlockDataFetcher {
         if steps > self.getRemainCount() {
             throw VRCDataFetcherError(
                 message: "Out of range.", kind: .outOfRange)
+        }
+        
+        //  Check parameter(s).
+        if steps < 0 {
+            throw VRCDataFetcherError(
+                message: "steps < 0.", kind: .parameterError)
         }
         
         var remainSteps = steps
