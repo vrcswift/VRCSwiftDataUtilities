@@ -58,7 +58,7 @@ public class VRCDataFetcher {
     ///
     ///  - Parameter data: The data.
     ///
-    init(data: Data) {
+    public init(data: Data) {
         m_Data = data
     }
     
@@ -251,7 +251,7 @@ class VRCBlockDataFetcher {
     ///
     ///  - Parameter blocks: The blocks.
     ///
-    init(blocks: [Data]) {
+    public init(blocks: [Data]) {
         m_RemainCount = 0
     
         for data in blocks {

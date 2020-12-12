@@ -34,7 +34,7 @@ public class VRCDataMerger {
     ///
     ///  - Parameter data: The data.
     ///
-    func push(data: Data) {
+    public func push(data: Data) {
         m_Datas.append(data)
     }
     
@@ -43,7 +43,7 @@ public class VRCDataMerger {
     ///
     /// - Returns: The data.
     ///
-    func merge() -> Data {
+    public func merge() -> Data {
         var rstlen = 0
         
         for data in m_Datas {
@@ -62,7 +62,7 @@ public class VRCDataMerger {
     ///
     ///  Clear pushed data.
     ///
-    func reset() {
+    public func reset() {
         m_Datas.removeAll()
     }
 }
