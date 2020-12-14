@@ -114,13 +114,13 @@ public class VRCDataFetcher {
     ///
     ///  Fetch bytes with specific count.
     ///
+    ///  - Parameter count: The count
+    ///
     ///  - Throws: Raised in the situations:
     ///
     ///         - The fetcher is already ended.
     ///         - The count is out of range.
     ///         - count < 0.
-    ///
-    ///  - Parameter count: The count
     ///
     ///  - Returns: The bytes.
     ///
@@ -353,13 +353,13 @@ class VRCBlockDataFetcher {
     ///
     ///  Fetch specific bytes.
     ///
+    ///  - Parameter count: The bytes count.
+    ///
     ///  - Throws: Raised in the situations:
     ///
     ///         - The stream is ended.
     ///         - The bytes count is out of range.
     ///         - count < 0.
-    ///
-    ///  - Parameter count: The bytes count.
     ///
     ///  - Returns: The bytes.
     ///
@@ -420,13 +420,13 @@ class VRCBlockDataFetcher {
     ///
     /// Fetch specific bytes as blocks.
     ///
+    /// - Parameter count: The bytes count.
+    ///
     /// - Throws: Raised in the situations:
     ///
     ///         - The stream is ended.
     ///         - The bytes count is larger than remain count.
     ///         - count < 0.
-    ///
-    /// - Parameter count: The bytes count.
     ///
     /// - Returns: The buffer blocks.
     ///
@@ -492,13 +492,13 @@ class VRCBlockDataFetcher {
     ///
     /// Skip specific bytes.
     ///
+    /// - Parameter steps: The count of bytes to be skipped.
+    ///
     /// - Throws: Raised in the situations:
     ///
     ///         - The stream is ended.
     ///         - The count of bytes to be skipped is larger than remain count.
     ///         - steps < 0.
-    ///
-    /// - Parameter steps: The count of bytes to be skipped.
     ///
     public func skip(steps: Data.Index) throws {
         //  Check whether ended.
