@@ -210,10 +210,77 @@ final class VRCSwiftDataUtilitiesTests: XCTestCase {
                 [data1, data2])
         }
     }
+    
+    func testDataQueue() {
+        //  Data count.
+        let count = 128
+        let queue = VRCDataQueue()
+        do {
+            let d1 = buildRandomData(count: count)
+            let d2 = buildRandomData(count: count)
+            let d3 = buildRandomData(count: count)
+            
+            queue.push(data: d1)
+            queue.push(data: d2)
+            queue.push(data: d3)
+            
+            let d = MergeBufferBlocks(blocks: [d1, d2, d3])
+            for i in 0..<Int((count * 3) / 2) {
+                do {
+                    XCTAssertEqual(
+                        try queue.pop(count: 2),
+                        d.subdata(in: (i * 2)..<((i + 1) * 2)))
+                }
+            }
+        }
+        
+        queue.push(data: buildRandomData(count: 12))
+        queue.reset()
+        
+        do {
+            let d1 = buildRandomData(count: count)
+            let d2 = buildRandomData(count: count)
+            let d3 = buildRandomData(count: count)
+            
+            queue.push(data: d1)
+            queue.push(data: d2)
+            queue.push(data: d3)
+            let d = MergeBufferBlocks(blocks: [d1, d2, d3])
+            for i in 0..<Int((count * 3) / 3) {
+                do {
+                    XCTAssertEqual(
+                        try queue.pop(count: 3),
+                        d.subdata(in: (i * 3)..<((i + 1) * 3)))
+                }
+            }
+        }
+        
+        do {
+            let d1 = buildRandomData(count: count)
+            let d2 = buildRandomData(count: count)
+            let d3 = buildRandomData(count: count)
+            
+            queue.push(data: d1)
+            queue.push(data: d2)
+            queue.push(data: d3)
+            
+            XCTAssertEqual(
+                queue.popAll(),
+                MergeBufferBlocks(blocks: [d1, d2, d3])
+            )
+        }
+        
+        do {
+            XCTAssertNoThrow(try queue.pop(count: 0))
+            XCTAssertThrowsError(try queue.pop(count: 1))
+            XCTAssertThrowsError(try queue.pop(count: count))
+        }
+    }
 
     static var allTests = [
         ("testFetcher", testFetcher),
         ("testBlockFetcher", testBlockFetcher),
-        ("testMerger", testMerger)
+        ("testMerger", testMerger),
+        ("testDataQueue", testDataQueue)
     ]
 }
