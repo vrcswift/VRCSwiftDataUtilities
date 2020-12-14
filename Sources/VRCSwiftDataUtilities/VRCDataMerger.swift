@@ -26,6 +26,13 @@ public class VRCDataMerger {
     var m_Datas = [Data]()
     
     //
+    //  MARK: VRCDataMerger constructor.
+    //
+    public init() {
+        //  Do nothing.
+    }
+    
+    //
     //  MARK: VRCDataMerger public methods.
     //
     
