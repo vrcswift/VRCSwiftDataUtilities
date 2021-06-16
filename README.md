@@ -1,6 +1,6 @@
 # VRCSwiftDataUtilities
 
-This library is a data utilities for VRC Swift.
+This library contains data utilities for VRC Swift.
 
 ## APIs
 
